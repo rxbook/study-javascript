@@ -1,0 +1,46 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<body>
+<!--当一个事件接收到 一个false返回值，表示放弃这个行为.-->
+请输入一个六位数 <input type="text" id="pageNow" onkeydown="return checkNum(this)"/>
+</body>
+<script type="text/javascript">
+
+<!--
+var i=0;
+
+function checkNum(obj){
+	
+
+	//判断输入数字的长度是否超过六
+	//表示第一次输入
+	if(i==6){
+		
+		window.alert("输入的字符串>6");
+		return false;
+	}
+	//防止首位是0
+	if(i==0){
+		if(window.event.keyCode=='0'.charCodeAt(0)){
+			alert('首位不能是0');
+			return false;
+		}
+	}
+
+
+	//window.alert("用户输入了一个"+window.event.keyCode);
+	//如果我们记不住 0->48 9->57,我们可以这样做
+	if(window.event.keyCode<'0'.charCodeAt(0) || window.event.keyCode>'9'.charCodeAt(0)){
+		window.alert("你输入的不是数");
+		return false;
+		//window.event.returnValue=false;
+	}else{
+	    //如果被接收
+		i++;
+	}
+}
+
+
+
+//-->
+
+</script>

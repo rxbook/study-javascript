@@ -1,0 +1,15 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<script type="text/javascript">
+
+	function send(){
+		
+		var chlid_text=document.getElementById("myinfo2");
+		//opener表示该页面的父窗口
+		opener.document.getElementById('myinfo').value=chlid_text.value;
+	}
+</script>
+<h1>我是b.html页面</h1>
+<input type="text" id="myinfo"/>
+<input type="text" id="myinfo2"/>
+<input type="button" value="送给父窗口" onclick="send()"/>
+

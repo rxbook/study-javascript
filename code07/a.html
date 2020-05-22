@@ -1,0 +1,21 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<script type="text/javascript">
+	var newwindow="";
+	function test(){
+		//open函数本身就会返回子窗口的引用
+		newwindow=window.open("b.html");
+
+	}
+	function test2(){
+		//取出用户希望发送给子窗口的信息
+		var my_text=document.getElementById("myinfo");
+	//newwindow.document 实际上b.html页面的文档
+		var chlid_text=newwindow.document.getElementById("myinfo");
+		chlid_text.value=my_text.value;
+	}
+</script>
+
+<input onclick="test();" type="button" value="开新窗口"/>
+
+<input type="text" id="myinfo" />
+<input type="button" onclick="test2()" value="发送给子窗口"/>

@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">
+
+//判断当前是什么浏览器
+<!--
+if(window.XMLHttpRequest){ //Mozilla, Safari, IE7,IE8  
+     if(!window.ActiveXObject){ // Mozilla, Safari,  
+         alert('Mozilla, Safari');  
+     }else{  
+         alert('IE');  
+     }  
+ }else {  
+     alert('IE6');  
+ } 
+//-->
+
+//遍历当前浏览器的window对象
+var info = '';
+for(var key in window){
+	document.write( '<font color="red">'+key+'</font> => '+window[key]+'<br>');	
+}
+ 
+
+
+
+//鼠标指针的水平坐标和垂直坐标
+function show_coords(event){	
+	alert('水平坐标：'+event.clientX+'，垂直坐标：'+event.clientY);
+}
+
+//判断用户按下的是哪个键
+function showkey(event){
+	alert(event.keyCode);
+}	
+
+//页面加载	
+function pageload(){ 
+	document.getElementById("loadok").innerHTML="<b>页面加载完成！</b>";
+}
+//页面关闭（测试后好像不起作用）
+function pageunload(){
+	if(!confirm('你即将关闭页面！是否确认？')){
+		return false;	
+	}
+}
+	
+//动态改变div的颜色
+function showcolor(val){
+	var mydiv = document.getElementById("mydiv").style.backgroundColor = val;
+}
+
+//一个事件可以执行多个函数
+function say1(){alert('say1....');}
+function say2(){alert('say2....');}
+function say3(){alert('say3....');}
+	
+</script>
+
+<body onLoad="pageload()" onUnload="return pageunload()" contextmenu="return false;" onselectstart="return false;">
+ 
+<input type="button" value="获取鼠标横竖坐标"  onmousedown="show_coords(event)" /> <br> 
+
+<input type="text" onkeydown="showkey(event)" size="80" value="请按键——判断用户按下的是哪个键" /> <br> 
+
+<div id="mydiv" style="width:300px;height:300px;border:1px solid #00F"></div>
+<input type="button" value="绿色" onClick="showcolor('green')" />
+<input type="button" value="黑色" onClick="showcolor('black')" /> <br> 
+
+<input type="button" onclick="say1();say2();say3();" value="一个事件可以执行多个函数"   /> <br> 
+
+
+
+<div id="loadok" style="color:red;margin-top:30px"></div> <br><br> 
+
+ 
+
+</body>
+</html>

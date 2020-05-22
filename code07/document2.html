@@ -1,0 +1,54 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<script type="text/javascript">
+	//通过id获取对象
+	function test(){
+		var a1=document.getElementById("a1");
+		//如果要取出某个属性
+		window.alert(a1.id+" "+a1.href+" "+a1.innerHTML);
+		//也可以修改对应的属性
+		a1.innerHTML="连接到百度";
+		a1.href="http://www.baidu.com";
+	}
+
+	//通过name来获取
+	function test2(){	
+		var hobbies=document.getElementsByName("hobby");
+		//遍历这个集合
+		var res='';
+		for(var i=0;i<hobbies.length;i++){			
+			//window.alert(i+ " "+hobbies[i].checked);
+			if(hobbies[i].checked){
+				res+=hobbies[i].value+' ';
+			}
+		}
+		window.alert("你的爱好是："+res);
+	}
+
+	//通过标签名
+	function test3(){
+		var inputs=document.getElementsByTagName("input");
+		window.alert(inputs.length);
+	}
+
+
+
+</script>
+<body>
+
+<a id="a1" href="http://www.sina.com">连接到sina</a><br/>
+<a id="a1" href="http://www.sohu.com">连接到sohu</a><br/>
+<a id="a3" href="http://www.baidu.com">连接到baidu</a><br/>
+<input type="button" value="测试" onClick="test()"/><br/>
+
+
+请选择你的爱好:
+<input type="checkbox" name="hobby" value="旅游">旅游
+<input type="checkbox" name="hobby" value="音乐">音乐
+<input type="checkbox" name="hobby" value="体育">体育
+<input type="checkbox" name="hobby" value="电影">电影
+
+
+
+<input type="button" value="看看你的爱好" onClick="test2()"/><br/>
+<input type="button" value="通过tagname来获取元素" onClick="test3()"/><br/>
+</body>

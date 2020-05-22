@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">
+
+	//定义了一个猫类
+	function Cat(){
+  		
+	}
+	//创建一只猫 [js对象的属性可以动态增加]
+	var cat1=new Cat(); //cat1就是一个对象实例
+	cat1.name="小白";  //
+	cat1.age=3;
+	cat1.color="白色"
+
+	document.write(cat1.name+"--"+cat1.age+"--"+cat1.color);
+
+	//alert(cat1.constructor);
+	//alert(typeof(cat1)); //Object
+
+ 
+
+	/*JS中一切都是对象*/
+	var i=123;
+	//alert(i.constructor);
+	//alert(Cat.constructor);
+	//alert(Function.constructor);
+
+
+	function Dog(){
+  		
+	}
+	//if(cat1 instanceof Cat) alert('yes'); else alert('no');
+	 
+
+
+	/*JS中对象的存在形式*/
+	function Person(){}
+	var p1 = new Person();
+	p1.name="小明";
+	var p2=p1;
+	alert('p2 = ' + p2.name);
+
+	p2 = null;
+	alert('p1 = ' + p1.name);
+	alert('p2 = ' + p2.name);
+
+
+</script>
+
+</html>

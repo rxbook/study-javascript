@@ -1,0 +1,400 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">	  
+ 	function Person(name,sal){
+		this.name=name; //公开的属性
+		var sal=sal;//私有的属性
+	
+		this.showInfo=function(){ //公开的函数
+			alert(this.name+"   "+sal);
+		}
+		function showInfo2(){ //私有的函数
+			alert("你好"+this.name+"  "+sal);
+		}
+	}
+ 
+ 
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	function Persons(pname,age){
+		this.name=pname;//公开属性(变量)
+		var age=age;//私有属性(变量)		
+		
+		function fun1(){ //私有方法.
+			document.write("hello");
+		}		
+		this.fun2=function(){//公开函数(特权函数)，可以访问所有成员
+			document.write(this.name+" "+age);
+			fun1();//在公开的函数中调用私有函数（允许的）
+		}
+	}
+	var p1=new Persons("任兴",90);
+	p1.fun2();
+	document.write(p1.name); //输出：“任兴 90hello任兴”
+	/*
+	p1.fun1();//错误：TypeError: p1.fun1 is not a function
+	document.write(p1.age+'<br>');//错误
+	*/
+	//扩展：原型法
+	Persons.prototype.fun3 = function(){  
+		return "fun3....";  
+	}	
+	document.write(p1.fun3());//输出 “fun3....” 
+
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*JS中通过构造函数添加成员方法和通过原型法添加成员方法的区别*/
+	/*
+	① 通过原型法分配的函数是所有对象共享的.
+	② 通过原型法分配的属性是独立.(如果你不修改属性，他们是共享)
+	③ 建议：如果我们希望所有的对象使用同一一个函数，最好使用原型法添加函数，这样比较节省内存.
+	*/
+	
+	//构造函数方法很好用，但是存在一个浪费内存的问题。请看，我们现在为Cat对象添加一个不变的属性"type"（种类），再添加一个方法eat（吃老鼠）。那么，原型对象Cat就变成了下面这样：
+	function Cat(name,color){
+　　　　this.name = name;
+　　　　this.color = color;
+　　　　this.type = "猫科动物";
+　　　　this.eat = function(){
+			document.write("吃老鼠");
+	   };
+　　} 
+	//还是采用同样的方法，生成实例：
+　　var cat1 = new Cat("大毛","黄色");
+　　var cat2 = new Cat ("二毛","黑色");
+　　document.write(cat1.type); // 猫科动物
+　　cat1.eat(); // 吃老鼠 
+	
+	//表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对于每一个实例对象，type属性和eat()方法都是一模一样的内容，每一次生成一个实例，都必须为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。
+　　document.write(cat1.eat == cat2.eat); //false
+	
+	document.write('<br>');
+	
+	//能不能让type属性和eat()方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。 
+	//Prototype模式 ：Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。
+	//这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。
+　　function Cat2(name,color){
+　　　　this.name = name;
+　　　　this.color = color;
+　　}
+　　Cat2.prototype.type = "猫科动物2";
+　　Cat2.prototype.eat = function(){
+		document.write("吃老鼠2")
+	}; 
+	//然后，生成实例。
+　　var cat21 = new Cat2("大毛","黄色");
+　　var cat22 = new Cat2("二毛","黑色");
+　　document.write(cat21.type); // 猫科动物2
+　　cat21.eat(); // 吃老鼠
+	document.write(cat21.eat == cat22.eat); //true 
+	//这时所有实例的type属性和eat()方法，其实都是一个内存地址，指向prototype对象，因此就提高了运行效率。
+　　
+
+
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*没有继承的时候...代码复用性不高*/
+	/*
+	//中学生
+	function MidStu(name,age){
+		this.name=name;
+		this.age=age;
+		this.show=function(){
+			document.write(this.name+"年龄是="+this.age);
+		}
+		this.pay=function(fee){
+			document.write("你的学费是"+fee*0.8);
+		}
+	}
+	//小学生
+	function Pupil(name,age){
+		this.name=name;
+		this.age=age;
+		this.show=function(){
+			document.write(this.name+"年龄是="+this.age);
+		}
+		this.pay=function(fee){
+			document.write("你的学费是"+fee*0.5);
+		}
+	}
+	*/
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*继承方法一：对象冒充*/
+
+	/*
+	//1. 把子类中共有的属性和方法抽取出，定义一个父类Stu
+	function Stu(name,age){		
+		this.name=name;
+		this.age=age;		
+		this.show=function(){
+			document.write(this.name+"，年龄"+this.age+"<br>");
+		}
+	}
+	//2.通过对象冒充来继承父类的属性的方法
+	//中学生类
+	function MidStu(name,age){		
+		this.stu=Stu; //这里相当于把Stu构造函数(类)赋值给我们的属性this.stu
+		//调用this.stu方法
+		//这个表示初始化MidStu,相当于执行Stu(name,age),这句话必须有
+		this.stu(name,age); 
+		//可以写MidStu自己的方法.
+		this.pay=function(fee){
+			document.write(fee*0.8+"<br>");
+		}
+	}
+	//小学生类，同上
+	function Pupil(name,age){
+		this.stu=Stu;
+		this.stu(name,age);	
+		this.pay=function(fee){
+			document.write(fee*0.5+"<br>");
+		}		
+	}
+	//测试
+	var midstu=new MidStu("贾宝玉",15);
+	var pupil=new Pupil("贾环",12);
+	
+	midstu.show(); //“贾宝玉，年龄15”
+	midstu.pay(100); //“80”
+	
+	pupil.show(); //“贾环，年龄12”
+	pupil.pay(100); //“50”
+	*/
+	
+		
+	document.write('<br>-------------------------------------------------------<br>');
+	/*继承方法二：call及apply*/
+	/*
+	function Stu(name,age){		
+		this.name=name;
+		this.age=age;		
+		this.show=function(){
+			document.write(this.name+"，年龄"+this.age+"<br>");
+		}
+	}
+	//中学生
+	function MidStu(name,age){
+		Stu.call(this,name,age);//或者 Stu.apply(this,[name,age]);
+		this.pay=function(fee){
+			document.write(fee*0.8+"<br>");
+		}
+	}
+	//小学生
+	function Pupil(name,age){
+		Stu.call(this,name,age);//或者 Stu.apply(this,[name,age]);
+		this.pay=function(fee){
+			document.write(fee*0.5+"<br>");
+		}
+	}	
+	//测试
+	var midstu=new MidStu("贾宝玉",15);
+	var pupil=new Pupil("贾环",12);
+	
+	midstu.show(); //“贾宝玉，年龄15”
+	midstu.pay(100); //“80”
+	
+	pupil.show(); //“贾环，年龄12”
+	pupil.pay(100); //“50”
+	*/
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*补充说明： js 通过“对象冒充”方式可以实现多重继承     */	
+	/*
+	function Stu(name,age){		
+		this.name=name;
+		this.age=age;		
+		this.show=function(){
+			document.write(this.name+"，年龄"+this.age+"<br>");
+		}
+	}
+	//再定义一个父类
+	function Base(){
+		this.info="这是个好消息！";	
+	}	 
+	function MidStu(name,age){		
+		this.stu=Stu; 		
+		this.stu(name,age); 
+		this.base=Base; 		
+		this.base(); 
+		this.pay=function(fee){
+			document.write(fee*0.8+"<br>");
+		}
+	}	 
+	//测试
+	var midstu=new MidStu("贾宝玉",15);	
+	
+	midstu.show(); //“贾宝玉，年龄15”
+	midstu.pay(100); //“80”
+	document.write(midstu.info); //“这是个好消息！”
+	*/
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*js中不支持重载*/
+	function Berson(){		
+		this.test1=function (a,b){
+			document.write('这是前者<br>');	
+		}
+		this.test1=function (a){
+			document.write('这是后者<br>');
+		}
+	}
+	var b1=new Berson();
+	//js中不支持重载，定义了两个函数，只认最后的
+	b1.test1("a","b");//“这是后者”
+	b1.test1("a"); //“这是后者”
+
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*JS的覆盖*/
+	function Stu(){		
+		this.show=function(){
+			document.write("父类的show()...");
+		}
+	}
+	function MidStu(){		
+		this.stu=Stu;
+		this.stu();
+		
+		//如果没有下面这个，将会输出“父类的show()...”
+		this.show=function(){
+			document.write("子类的show()...");
+		}
+	}
+	var midstu=new MidStu();
+	midstu.show(); //“子类的show()...”
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*JS中多态的体现*/
+	//人类
+	function Persond(){
+		this.test1=function (){
+			document.write("Person test1");
+		}	
+	}
+	//猫类
+	function Catd(){
+		this.test1=function(){
+			document.write("Cat test1()");
+		}
+	}
+	//实例化 人类
+	var v=new Persond();	
+	v.test1();	//“Person test1”
+	if(v instanceof Persond){//v的类型
+		document.write("v变量是人类");//“v变量是人类”
+	}
+	//实例化 猫类
+	v=new Catd();
+	v.test1(); //“Cat test1()”
+	if(v instanceof Catd){
+		document.write("v变量是猫类");//“v变量是猫类”
+	}
+
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*韩顺平-多态的一个经典案例*/
+	
+	/*--- Master类---*/
+	function Master(name){
+		this.nam=name;
+		//方法[给动物喂食物]
+		
+	}
+	//原型法添加成员函数
+	Master.prototype.feed=function (animal,food){		
+		window.alert("给"+animal.name+" 喂"+ food.name);
+	}
+
+	function Food(name){
+		this.name=name;
+	}
+
+	//鱼类
+	function Fish(name){
+		this.food=Food;
+		this.food(name);
+	}
+
+	//骨头
+	function Bone(name){
+		this.food=Food;
+		this.food(name);
+	}
+
+	function Peach(name){
+		this.food=Food;
+		this.food(name);
+	}
+
+
+
+
+
+	/*---动物类---*/
+	function Animal(name){
+		this.name=name;
+	}
+	//猫猫
+	function Catx(name){
+		this.animal=Animal;
+		this.animal(name);
+	}
+	//狗狗
+	function Dogx(name){
+		this.animal=Animal;
+		this.animal(name);
+	}
+	//猴子
+	function Monkey(name){
+		this.animal=Animal;
+		this.animal(name);
+	}
+	var cat=new Catx("大花猫");
+	var fish=new Fish("黄花鱼");
+
+	var dog=new Dogx("大花狗");
+	var bone=new Bone("猪骨头");
+
+	/*----创建一个主人---*/
+	var master=new Master("韩顺平");
+	master.feed(dog,bone);
+
+	//扩展
+	var monkey=new Monkey("金丝猴");
+	var peach=new Peach("仙桃");
+
+	master.feed(monkey,peach);
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	 
+	/*-------------------------------------------------------------------*/
+
+</script>
+
+</html>

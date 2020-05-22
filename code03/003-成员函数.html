@@ -1,0 +1,241 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">
+	  
+	/* [js面向对象的成员函数]如果我们希望某个对象创建后，自动有方法使用，可以在定义类的时候，直接指定成员函数 */
+ 
+
+	/* 第一种方法： 动态的给某个对象指定函数 */
+	function Person(name,age){
+		this.name=name;
+		this.age=age;			
+	}
+	function speak(){
+		document.write("我是"+this.name+"，我的年龄是"+this.age);
+	}
+	//创建一个对象实例
+	var p1=new Person("大黄",90);
+	p1.fun1=speak; //相当于 动态的给p1对象分配一个fun1属性(函数);
+	p1.fun1(); //输出“我是大黄，我的年龄是90”
+	//alert(p1.fun1); //弹出整个speak()函数体；相当于 alert(speak);
+
+	/*第一种方法还有一种体现形式*/
+	var p1=new Person("成龙",45);
+	p1.fun1=function speak(){
+		document.write("我的名字叫："+this.name+"，今年"+this.age+"岁！");
+	}; //相当于动态的给p1对象分配一个fun1属性(函数);
+	p1.fun1();//输出“我的名字叫：成龙，今年45岁！”
+	//alert(speak);//弹出整个speak()函数体；相当于 alert(speak);
+
+	
+	/*-------第二种方法: 让所有的Person对象实例都有某个成员函数--------*/
+	//给所有对象分配函数
+	function Person(name,age){
+		this.name=name;
+		this.age=age;
+		this.speak=function (){
+			document.write(this.name+"hello");
+		}
+	}
+	var p1=new Person("小孩",9);
+	p1.speak();//输出“小孩hello”
+	var p2=new Person("大明",30);
+	p2.speak();//输出“大明hello ”
+
+
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*计算*/
+	function Cal(){
+		//【计算从 1+..+100的结果】
+		//function 后面的方法名可有可无
+		this.jisuan=function(){ //这里等价this.jisuan=function aaa(){
+			var res = 0;
+			for(var i=1;i<=100;i++){
+				res += i;	
+			}	
+			return res;
+		}
+		//【接收一个数n，计算从 1+..+n 的结果】
+		this.jisuan2=function ccc(n){
+			var res = 0;
+			for(var i = 1;i<=n;i++){
+				res+=i;
+			}	
+			return res;
+		}
+	}	
+	var c1 = new Cal();
+	document.write(c1.jisuan()+'<br>');//输出“5050”
+	document.write(c1.jisuan2(10));//输出“55”
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	function Test(){
+		this.tst=function(){
+			for(var i=0;i<arguments.length;i++){
+				document.write(arguments[i]+'<br>');
+			}	
+		}	
+	}
+	var t1=new Test();
+	t1.tst('water',123,0,'长城',8.9);
+	/* 输出结果：
+		water
+		123
+		0
+		长城
+		8.9
+	 */
+	 
+	 
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*关于给对象指定成员函数说明*/
+	
+	//任兴说明：如果运行“标号02”会报错“salary未定义”，运行“标号01”没问题，输出“宋江341000”！
+	function Ps(name,age,salary){
+		this.name=name;//公开
+		this.age=age;//公开
+		var salary=salary;//私有
+		
+		// 标号01
+		this.showInfo=function showInfo(){//这一行等价于 this.showInfo=function(){
+			document.write(this.name+this.age+salary);
+		}
+		// END 标号01
+	}
+	
+	var p=new Ps("宋江",34,1000);
+
+	/*// 标号02
+	function showInfo(){
+		document.write(this.name+this.age+salary);//这里salary是私有
+	}
+	p.showInfo=showInfo;
+	// END 标号02
+	*/
+	p.showInfo();
+
+
+
+
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*一个类中可以有公开的函数，一个类中也可以有私有的函数*/
+	
+	function Renxing(){			
+		this.name="abc";
+		var salary=900;
+
+		this.fun1=function (){
+			sayHello();
+		}
+		this.fun2=function(){
+			sayHello();
+		}
+		this.fun3=function(){
+			sayHello();
+		}
+		function sayHello(){
+			document.write("hello,"+this.name+" "+salary);
+		}
+	}
+
+	var r1=new Renxing();
+	//r1.fun1();r1.fun3();同理
+	r1.fun2(); //输出“hello, 900 ”；this.name 未输出
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*给所有的对象实例添加方法(原型法)*/
+	
+	//任兴说明：下面的 “标号02” 可以 代替“标号01” 的代码
+	function Dog(){
+		/*//标号01		
+		this.shout=function (){
+			document.write("小狗汪汪叫");
+		}//END标号01
+		*/
+	}
+
+	//原型法
+	//标号02
+	Dog.prototype.shout=function (){
+		document.write("小狗叫");
+	}//END标号02
+
+	var dog1=new Dog();
+
+	dog1.shout();
+	 
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	/*【原型法的实际应用】请思考给 js 的 Array 对象扩展一个find(val) 方法，当一个Array对象调用该方法的时候，如果能找到val则返回其下标，否则返回-1*/
+	
+	Array.prototype.find=function(val){		
+		//顺序查找
+		for(var i=0;i<this.length;i++){
+			if(val==this[i]){
+				flag=true;
+				return i;
+			}
+		}		
+		return -1;		
+	}
+	var arr=[4,590,-1,890,35];	
+	document.write(arr.find(890));//输出“3”
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*自定类的工厂方法，通过new Object 来创建一个对象，然后再动态的给该对象添加属性和方法*/
+	
+	var obj=new Object();
+	obj.name="大明";
+	obj.show=function (val){
+		document.write("ok"+val);
+	}
+	obj.show("hello");//输出“okhello”
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*面向对象案例：可以让Number对象 add().add().add()... */
+	
+	Number.prototype.add=function(val){
+		return this+val;
+	}
+	var num=90;//等价于 var num = new Number(90);
+	document.write(num.add(4).add(7).add(10));//输出“111”
+	
+	
+	
+	
+	
+	
+	
+	/*-------------------------------------------------------------------*/
+
+	/*-------------------------------------------------------------------*/
+
+	/*-------------------------------------------------------------------*/
+
+	/*-------------------------------------------------------------------*/
+
+</script>
+
+</html>

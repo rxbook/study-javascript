@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">
+	/*this的使用*/
+	function Person(){
+		//每创建一个Person实例,实例就会自动有一个属性 name,并且是公开
+		this.name="renxing";
+	}
+	var p = new Person();
+	//alert(p.name);
+
+	/*--------------------------------------------------------------*/
+	/*传参*/
+	function Pes(name){
+		this.name = name;
+	}
+	var p1 = new Pes('china');
+	//p1.name = 'beijing';//如果有这行代码，则会覆盖默认的'china'
+	//alert(p1.name);
+
+	/*--------------------------------------------------------------*/
+	var t = 234;
+	//alert(this.t);
+
+	/*---------------------------------------------------------------*/
+	/*私有属性的访问*/
+	function Person(){
+		var name="abc"; //私有的，只能在内部使用
+		var age=900; //私有的，只能在内部使用
+	}
+	var p2=new Person();
+	//alert(p2.name+"-"+p2.age);//错误 undefined
+
+	/*解决办法*/
+	function Persons(){
+		var name="abc"; //私有的，只能在内部使用
+		var age=900; //私有的，只能在内部使用
+
+		//感受(相当于你是通过内部函数来访问私有的变量.)
+		//如何理解: 说有一个属性 show 因为前面有this 
+		//说明 show属性是公开. 该属性是指向一个函数地址属性.
+		//则通过 show去调用该函数.
+		this.show=function(){
+			window.alert(name+"-"+age);
+		}
+	}
+	var p3=new Persons();
+	//p3.show();
+
+	/*-------------------------------------------------------------------*/
+	/*对this的再认识*/
+	function test1(){
+		alert(this.v); 
+	}
+	var v=190;
+	//test1(); //输出190 <==> window.test1(); 
+
+	/*-------------------------------------------------------------------*/
+	/*说明：this 只能在 类定义的内部使用*/
+	function Dog(){
+		this.name="小明";
+	}
+	var dog1=new Dog();
+	alert(this.name); //报空, 如果是 alert(dog1.name);就OK.
+	//因为这样相当于去访问window对象的name属性，但是没有写.
+
+	
+ 
+
+</script>
+
+</html>

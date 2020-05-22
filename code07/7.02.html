@@ -1,0 +1,121 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<title>JS DOM编程</title>
+
+<script type="text/javascript">
+
+//静态绑定事件——直接在 某个html 控件上指定
+function test1(){
+	alert('test1事件...');		
+}
+
+//动态绑定事件
+window.onload=function(){
+	document.getElementById("but2").onclick=test2;	
+}
+function test2(){
+	alert('test2事件...');	
+}
+
+//attachEvent，好像只有IE能用
+//第一个参数是事件名
+window.onload=function(){
+	document.getElementById("but3").attachEvent("onclick",vote);
+}
+function vote(){	
+	window.alert("已经投票成功，不能再投了！");
+	//解除绑定
+	document.getElementById("but3").detachEvent("onclick",vote);
+}
+
+/*----------如何获取事件对象 -------*/
+//IE中第一种方法：通过window.event.属性
+function ie1(){
+	//获取鼠标指针的水平坐标
+	alert(window.event.clientX);	
+}//测试后IE和chrome有效，FF无效
+
+//IE中第二种方法：通event
+function ie2(event){
+	//获取鼠标指针的水平坐标
+	alert(event.clientX);	
+}//测试后IE和chrome和FF均有效
+
+
+function onresize1(){
+	//alert('窗口变化了！');	
+}//只要窗口大小发生变化就会弹窗
+
+
+//鼠标移动，随时获取坐标
+function sbyd(event){
+	var zuobiao = "x="+event.screenX+" y="+event.screenY;
+	document.getElementById("showxy").innerHTML = zuobiao;
+}
+
+
+
+
+
+
+
+</script>
+
+</head>
+<body onResize="onresize1()">
+
+ 
+<input type="button" id="but1" onClick="test1()" value="test1" />  
+
+<input type="button" id="but2" value="test2" /> 	<br>
+
+<input type="button" id="but3" onClick="test3()" value="投票后就不能再点了">
+
+<hr>
+<input type="button" id="ie1" onClick="ie1()" value="ie1" />  
+<input type="button" id="ie2" onClick="ie2(event)" value="ie2" /> 
+
+<hr>
+
+<div onmousemove="sbyd(event)" style="width:400px;height:300px;border: 1px solid red;">
+</div>
+<span id="showxy"></span>
+
+<hr>
+</body>
+
+
+<script type="text/javascript">
+	
+	function myfresh(){
+		window.location.reload();
+	}	
+	//window.setInterval("myfresh()",5000);//每隔5秒刷新页面
+
+
+
+//遍历location对象
+for(var key in location){
+	document.write(key+',');
+}//输出 assign,replace,reload,ancestorOrigins,origin,hash,
+//search,pathname,port,hostname,host,protocol,href,
+
+document.write('<hr>');
+
+//遍历navigator对象
+for(var key in navigator){
+	document.write(key+' => '+navigator[key]+'<br>');
+}//输出一大堆.... 
+
+document.write('<hr>');
+
+//遍历screen对象
+for(var key in screen){
+	document.write(key+' => '+screen[key]+'<br>');
+} 
+ 
+</script>
+
+
+</html>

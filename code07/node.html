@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 
+Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>无标题页</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+</head>
+<body>
+<table border="1">
+<tr>
+<td></td>
+<td><input type="button" value="向上走" onclick="move(this)" /></td>
+<td></td>
+</tr>
+<tr>
+<td><input type="button" value="向左走" onclick="move(this)" /></td>
+<td></td>
+<td><input type="button" value="向右走" onclick="move(this)" /></td>
+</tr>
+<tr>
+<td></td>
+<td><input type="button" value="向下走" onclick="move(this)" /></td>
+<td></td>
+</tr>
+</table>
+
+<div id="wugui"  style="position: absolute ;left:100px;top:120px;">
+<img src="1.bmp" border="1" alt="" />
+</div>
+
+<div id="cock" style="left:200px;position:absolute;top:200px;">
+<img src="2.bmp" border="1" alt="" />
+</div>
+<input type="button" value="tesing" onclick="test()"/>
+<input type="button" value="tesing2" onclick="test1()"/>
+</body>
+<script type="text/javascript">
+
+	function test(){
+		
+		//得到乌龟节点
+		var wugui=document.getElementById("wugui");
+
+		window.alert("类型"+wugui.nodeType);
+		window.alert("名字"+wugui.nodeName);
+
+		var wugui_parent=wugui.parentNode;
+
+		window.alert("父节点类型"+wugui_parent.nodeType);
+		window.alert("父节点名字"+wugui_parent.nodeName);
+
+
+		var wugui_next_borther=wugui.nextSibling;
+
+		window.alert("下一个兄弟 类型"+wugui_next_borther.nodeType);
+		window.alert("下一个兄弟 名字"+wugui_next_borther.nodeName);
+
+		var wugui_pre_borther=wugui.previousSibling;
+
+		window.alert("前一个兄弟 类型"+wugui_pre_borther.nodeType);
+		window.alert("前一个兄弟 名字"+wugui_pre_borther.nodeName);
+
+		//取出孩子节点
+
+		var wugui_chlid=wugui.firstChild;
+
+		window.alert("孩子 类型"+wugui_chlid.nodeType);
+		window.alert("孩子 名字"+wugui_chlid.nodeName+wugui_chlid.src);
+
+
+	}
+	function test1(){
+			document.bgColor="black";
+			document.fgColor="pink";
+			window.alert(document.title+" "+document.URL);
+		}
+
+</script>
+</html>

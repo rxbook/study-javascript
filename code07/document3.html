@@ -1,0 +1,31 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<script type="text/javascript">
+	
+	//创建节点
+	function test1(){
+		//1创建 a 元素 createElment(标签名)， 
+		var myhref=document.createElement("a"); //<a >???</a>
+		myhref.innerText="连接到sina";
+		myhref.href="http://www.baidu.com"
+		myhref.id="myhref";
+		//document.body.appendChild(myhref);
+		document.getElementById("div1").appendChild(myhref);
+	}
+	
+	//删除节点
+	function test2(){
+		//方法一：找到父元素，然后删除它的子节点removeChild
+		//document.getElementById('div1').removeChild(document.getElementById('myhref'));
+		
+		//方法二：找到该元素，然后删除该元素的父元素parentNode 的子元素removeChild
+		var node=document.getElementById('myhref');
+		node.parentNode.removeChild(node);
+	}
+
+</script>
+<body>
+<input type="button" value="创建一个a标签" onClick="test1()"/><br/>
+<input type="button" value="删除a标签" onClick="test2()"/><br/>
+<!--引入  css  id class [dom如何去操作一个外表css!补讲 ]-->
+<div id="div1" style="width:200px;height:200px;background-color:green">div1</div>
+</body>

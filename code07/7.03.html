@@ -1,0 +1,151 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<title>JS DOM编程-document对象</title>
+
+<script type="text/javascript">
+//document对象的write 和 writeln
+function write1(){
+	document.writeln("what");
+	document.write("Hello");	
+}
+
+//获取body宽度
+function body1(){
+	//随着窗口大小的调整，数据也会变动
+	alert("body宽："+document.body.clientWidth+"，高："+ document.body.clientHeight);	
+}
+
+//获取文档中form的个数
+function frm1(){
+	alert(document.forms.length);	
+}
+//获取文档中img的个数
+function img1(){
+	alert(document.images.length);	
+}
+
+
+/*重点：table*/
+
+//取出表格中第2行第3列
+function tb1(){
+	var mytable=document.getElementById("mytab");//mytable就是一个table对象	
+	alert(mytable.rows[1].cells[2].innerText);
+	//说明：mytable.rows[1] 代表第2行，之后.cells[2]代表改行的第3列	
+}
+
+//添加操作
+function addHero(){
+	var mytable=document.getElementById("mytab");
+	//创建一个新行叫rows，类型是TableRow，4表示添加到表格的第5行
+	var rows=mytable.insertRow(4);  
+	//通过rows添加新列cells1，类型是 TableCell，0表示添加到第1列 
+	var cells1=rows.insertCell(0);  
+	cells1.innerHTML="4";  
+	//下面的以此类推
+	var cells2=rows.insertCell(1); 
+	cells2.innerHTML="吴用"; 	
+	var cells3=rows.insertCell(2); 
+	cells3.innerHTML="智多星";  
+
+}
+//删除操作
+function deleteHero(){
+	var mytable=document.getElementById("mytab");
+	mytable.deleteRow(3);
+}
+//修改操作
+function updateHero(){
+	var mytable=document.getElementById("mytab");
+	mytable.rows[1].cells[2].innerHTML="黑三郎";
+}
+
+
+
+
+
+
+
+ 
+
+</script>
+
+</head>
+<body >
+ 
+ <input type="button" onclick="write1()" value="write1" /> <br>
+ <input type="button" onclick="body1()" value="获取body宽度" /> <br>
+ 
+ <input type="button" onclick="node1()" value="获取节点属性" /> <br> 
+ 
+  <input type="button" onclick="frm1()" value="获取form的个数" /> <br> 
+ 
+   <input type="button" onclick="img1()" value="获取img的个数" /> <br> 
+ 
+ <hr>  
+ 【table】<br>
+<table id="mytab" border="1px" rules="all">
+<tr>
+	<td>排名</td>
+    <td>姓名</td>
+    <td>外号</td>
+</tr>
+<tr>
+	<td>1</td>
+    <td><input type="text" value='宋江'/></td>
+    <td>及时雨</td>
+</tr>
+<tr>
+	<td>2</td>
+    <td>卢俊义</td>
+    <td>玉麒麟</td>
+</tr>
+<tr>
+	<td>3</td>
+    <td>孙悟空</td>
+    <td>斗战胜佛</td>
+</tr>
+</table>
+<input type="button" onclick="tb1()" value="取出第2行第3列"/>
+<input type="button" onclick="addHero()" value="添加"/>
+<input type="button" onclick="deleteHero()" value="删除"/>
+<input type="button" onclick="updateHero()" value="修改"/>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+ <hr>
+ Forms对象：<br>
+ 
+<form action="a.php" method="post">
+u:<input type="text" name="username" value="hello"/><br/>
+p:<input type="password" name="password" value="xxx"/><br/>
+<input type="submit" value="提交"/>
+</form>
+
+<form action="b.php" method="post">
+u:<input type="text" name="username"/>
+</form>
+<input type="button" onclick="mysubmit()" value="提交"/>
+ 
+<hr>
+<img src="1.jpg" style="border:1px solid #CCC;width:200px;height:100px"><br><br>
+<img src="2.jpg" style="border:1px solid #CCC;width:200px;height:100px">
+ 
+ 
+</body>
+
+ 
+
+</html>

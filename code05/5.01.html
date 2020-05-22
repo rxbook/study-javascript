@@ -1,0 +1,128 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">
+	var num=new Number("12.3456");
+	//四舍五入，保留两位小数精度
+	document.write(num.toFixed(2) +'<br>'); //输出“12.35”
+	//当前浏览器支持的最大数
+	document.write(Number.MAX_VALUE +'<br>'); //“1.7976931348623157e+308”
+	//当前浏览器支持的最小数
+	document.write(Number.MIN_VALUE); //“5e-324”
+	
+	
+	document.write('<br>-------------------------------------------------</br>');
+	
+	/* Date()*/
+	var mydate=new Date();
+	document.write(mydate+'<br>');//Fri Aug 08 2014 15:28:09 GMT+0800 (中国标准时间)
+	document.write(mydate.toLocaleString()+'<br>');//2014年8月8日 下午3:28:09
+	document.write(mydate.getMonth()+1);//获取月份
+ 
+	
+	document.write('<br>-------------------------------------------------</br>');
+	/* String */
+	
+	var str = "hel lo 这里有 English也有1中文 还有数字 3.1415926 可以了";	
+	//indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置
+	document.write(str.indexOf('1')+'<br>');//“20”
+	//lastIndexOf() 方法可返回一个指定的字符串值最后出现的位置，在一个字符串中的指定位置从后向前搜索。
+	document.write(str.lastIndexOf('1')+'<br>');//“33”	
+	//split() 方法用于把一个字符串分割成字符串数组
+	document.write(str.split(' ')+'<br>');//“hel,lo,这里有,English也有1中文,还有数字,3.1415926,可以了”	
+	//stringObject.substr(start,length)  提取从start下标开始的指定数目的字符
+	document.write(str.substr(0,8)+'<br>');//从第0个开始，截取8个。输出“hel lo 这”	
+	//stringObject.substring(start,stop) 提取字符串中介于两个指定下标之间的子串
+	document.write(str.substring(8,9)+'<br>');//从 start 处到 stop-1 ，即从8到9，输出“里”
+	//charAt() 方法可返回指定位置的字符
+	document.write(str.charAt(7)+'<br>');//“这”
+	//length 属性可返回字符串中的字符数目。
+	document.write(str.length+'<br>');//“42”	
+	 
+	//String实际应用：输入文件全路径 获取文件名和后缀
+	var file_path="c:/abc/2014/helo/Javascript学习.ppt";
+	var last_index=file_path.lastIndexOf("/");
+	document.write(file_path.substr(last_index+1));//输出：“Javascript学习.ppt”
+
+	document.write('<br>-------------------------------------------------</br>');
+	/* Array */
+	var arr=new Array();
+	arr[0]='A';
+	arr[1]='B';
+	arr[2]='C';
+	arr[3]='D';
+	
+	//删除数组的某个元素，删除第2个元素->下标为1
+	arr.splice(1,1); //第一个1 表示删除第1个元素, 第二个1表示删除1个
+	document.write(arr+'<br>'); //"A,C,D"
+	
+	//修改第一个 "A"-> "2014"
+	arr.splice(0,1,"2014");
+	document.write(arr+'<br>'); //"2014,C,D"
+	
+	//把一个新的数据"北京"，添加到第1个元素后面
+	arr.splice(1,0,"北京");
+	document.write(arr+'<br>'); //"2014,北京,C,D"
+	
+	document.write('<br>-------------------------------------------------</br>');
+	/*对象数组的使用*/
+	
+	function Person(name,age){		
+		this.name=name;
+		this.age=age;
+	}
+	var p1=new Person("曹操",45);
+	var p2=new Person("刘备",40);
+	var p3=new Person("孙权",30);
+	var arr=new Array();
+	p2.name="赵云";
+	
+	arr[0]=p1;
+	arr[1]=p2;
+	arr[2]=p3;
+	
+	for(var key in arr){		
+		var p=arr[key];
+		document.write(p.name+'  ');
+	} //输出“曹操 赵云 孙权”
+	
+	
+	document.write('<br>-------------------------------------------------</br>');
+	/*JS系统函数*/
+	//encodeURI
+	function sendinfo(){
+		var name=encodeURI("任兴 abcd");
+		location.href="?addr=beijing&name="+name;	
+	}
+	
+	document.write('<br>');
+	
+	
+	//eval函数：可以把一个字符串当做脚本来执行.
+	
+	var str="window.alert('hello')";
+	eval(str); //弹出“hello”
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</script>
+
+<input type="button" onClick="sendinfo()" value="提交数据" />
+
+</html>

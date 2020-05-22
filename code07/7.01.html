@@ -1,0 +1,117 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<title>JS DOM编程</title>
+<script type="text/javascript">
+ 
+//调整窗口大小
+function resizeto(){
+	window.resizeTo(300,200);	
+}//任兴说明：经测试仅IE有效
+
+function test1(){
+	var div1=document.getElementById("div1");
+	alert(div1.nodeName); //节点名称："DIV"
+	alert(div1.nodeValue); //节点值："null"
+	alert(div1.nodeType); //节点类型："1"		
+}
+
+
+
+//setInterval 计时器
+var i=0;
+function abc(){
+	var mytime = new Date();
+	document.getElementById("nowtime").innerHTML=mytime.toLocaleString();	
+	if(++i==5){
+		window.clearInterval(stoptime);
+		//alert("走了5秒，不走了！");//计时器5秒后就会停止走动
+	}
+}
+var stoptime = window.setInterval("abc()",1000);
+
+//setTimeout() 等待5秒后执行alert
+function sto(){
+	alert('打开页面5秒后才弹出！');	
+}
+var stop_sto = window.setTimeout("sto()",5000);
+window.clearTimeout(stop_sto);//有了这行代码，就不会弹出了
+
+
+
+//moveTo()把窗口的左上角移动到举例窗口左上角(200,200)
+function moveto1(){
+	window.moveTo(200,200);	
+}//测试后仅IE有效
+
+//moveBy()把窗口的左上角移动到距离当前(200,200)
+function moveby1(){
+	window.moveBy(200,200);	
+}//测试后仅IE有效
+
+//resizeTo()把窗口调整到 300px * 500px
+function resizeto1(){
+	window.resizeTo(300,500);	
+}//测试后仅IE有效
+
+//resizeBy()把窗口width增加100px,height增加-50px
+function resizeby1(){
+	window.resizeBy(100,-50);	
+}//测试后仅IE有效
+
+
+//open()打开新窗口
+function open1(){
+	window.open("7.02.html","_blank","width=300,height=500");	
+}//不同的浏览器效果不一样，手册有详细的讲解，用到的时候再去看
+
+//close关闭窗口
+function close1(){
+	if(confirm('即将关闭窗口，是否继续？')){
+		window.close();	
+	}	
+}//测试后仅IE有效
+
+//修改状态栏信息，貌似也只有IE有效
+window.status="Hello,我是任兴！";
+
+
+</script>
+
+
+</head>
+<body>
+
+<div id="div1">div1</div>
+  
+
+<hr>
+<input type="button" onClick="resizeto()" value="调整窗口大小" /> <br>  
+
+<input type="button" onClick="test1()" value="test1" /> <br>  
+
+当前时间是：<span id="nowtime">???</span>	 <br>
+
+
+<hr>
+
+<input type="button" onClick="moveto1()" value="moveTo" />
+<input type="button" onClick="moveby1()" value="moveBy" />
+<input type="button" onClick="resizeto1()" value="resizeTo" />
+<input type="button" onClick="resizeby1()" value="resizeBy" /> <br>
+
+<input type="button" onClick="open1()" value="open()打开新窗口" /> 
+<input type="button" onClick="close1()" value="close()关闭窗口" /> 
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

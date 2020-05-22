@@ -1,0 +1,248 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+<script type="text/javascript">	  
+
+	var a=90; //定义一个全局变量
+	function test(){
+		a=123; //使用外层的 a变量 
+	}
+	test();
+	document.write(a+'<br>'); //输出“123”
+	
+	/*对比*/	
+	var a1=90; //定义一个全局变量
+	function test1(){
+		var a1=123; //定义一个局部变量
+	}
+	test1();
+	document.write(a1+'<br>'); //输出“90”
+	
+	/*对比*/
+	a2=90; //没有var ,就会试着去找(父函数 的 a2)，如果找不到就创建 a2
+	function test2(){
+		a2=123; //没有var ,就会试着去找(父函数/外层 的 a2)，如果找不到就创建 a2
+	}
+	test2();
+	document.write(a2+'<br><br>');//输出“123”
+	
+	
+	/*---------深度解析----------*/
+	var c=10;
+	function tst1(){		
+		c=700;
+		function tst2(){			
+			c=890;//如果没 var ,则会到父函数去，找a,找到就使用父函数的a,否则创建
+		}		
+		return tst2;
+	}
+	var var1=tst1();
+	document.write(var1+'<br>');//输出tst1()的函数体
+	var1();	
+	document.write(c+'<br>');//输出“20”
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	//Javascript语言的特殊之处，就在于函数内部可以直接读取全局变量。
+　　var n1=999;
+　　function f1(){
+　　　　document.write(n1+'<br>');
+　　}f1(); // 999
+
+	//另一方面，在函数外部自然无法读取函数内的局部变量。
+　　function f2(){
+　　　　var n2=999;
+　　}//document.write(n2+'<br>'); // error,错误，终止后面的程序
+
+	//这里有一个地方需要注意，函数内部声明变量的时候，一定要使用var命令。如果不用的话，你实际上声明了一个全局变量！
+　　function f3(){
+　　　　n3=999;
+　　}f3();
+　　document.write(n3+'<br>'); // 999
+
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*闭包*/
+	function box1(){
+		var n=90;
+		//box1函数的内部函数,可以访问 var n
+		function box2(){
+			document.write(n);
+		}
+		//把内部函数box2返回外部调用者
+		return box2;
+	}
+	
+	var res=box1();//调用box1 ,返回 box2函数
+	//这时res就是box1内部函数 box2别名。即：box2()实现闭包！
+	res(); //输出“90”
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+    /*设计计算机类,要求如下:
+   	属性：品牌,颜色,cpu型号,内存容量,硬盘大小,价格,工作状态
+   	方法: 打开,关闭,休眠,创建一个计算机对象，调用打开，关闭方法*、
+    */
+	//定义计算机类
+	function Computer(){		
+		this.brand;
+		this.color;
+		this.cpu;
+		this.memeorysize;
+		this.disksize;
+		this.price;
+		this.state;
+
+		this.open=function open(){
+			document.write("计算机打开..");
+		}		
+		this.sleep=function sleep(){
+			document.write("休眠中....");
+		}
+		this.close=function close(){
+			document.write("关闭计算机...");
+		}
+	}
+	var computer=new Computer();	
+	computer.open();
+	computer.sleep();
+	computer.close();
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*对于比较简单的对象，我们也可以这样来创建.*/
+	var dog={name:'哈哈'};document.write(dog.name+'<br>');//输出“哈哈”
+
+	var dog={name:'吃饭',sayHello:function(a,b){ document.write((a+b)+'<br>');}};
+    document.write(dog.name+'<br>');//输出“吃饭”
+    document.write(dog["name"]+'<br>');//输出“吃饭” //一样可以访问
+    dog.sayHello(45,90);//输出“135”
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	/*19.在某些情况下，我们需要去改变某个函数的this指向，我们可以通过  call/apply 来实现。基本用法:函数名.call(对象)*/
+	var cat={name:'hello'};
+	function tests(){
+		document.write('看这里：'+this.name);
+	}
+	//tests(); //输出 空
+	//window.tests();//输出 空
+	tests.call(cat);//输出“hello” //相当于去调用tests() ，同时this指向cat对象.	
+	
+	name="小红";
+	tests.call(window); //输出“小红”
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*20.for ... in的另外用法：可以对数组遍历，也可以对对象遍历*/
+	
+	var dogs={name:"xm",age:34,color:"red"};
+	//遍历dogs对象
+	for(var key in dogs){
+		document.write(key+"："+dogs[key]+"<br>");
+	}
+	/*输出结果：
+		name：xm
+		age：34
+		color：red	
+	*/
+	
+	document.write("<br>");
+	
+	//扩展：遍历 浏览器window对象的属性
+	for(var key in window){
+		//document.write(key+"："+window[key]+"<br>");//输出一大堆...
+	}
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	/*21.手动删除某个对象的某个属性：delete 对象.属性*/
+	
+	var dogz={name:'小明',sayHello:function(a,b){ window.alert("结果="+(a+b));}};
+	document.write(dogz.name); //“小明”
+	delete dogz.name;// 手动删除dog对象的name属性
+	document.write(dogz.name);// “undefined”
+
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	
+	
+	
+	
+	
+	document.write('<br>-------------------------------------------------------<br>');
+	 
+	/*-------------------------------------------------------------------*/
+
+</script>
+
+</html>
